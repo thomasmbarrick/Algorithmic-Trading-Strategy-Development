@@ -1,5 +1,7 @@
 import backtrader
 
+#This class implements the test strategy from the Backtrader quickstart guide.
+# https://www.backtrader.com/docu/quickstart/quickstart/#adding-some-logic-to-the-strategy
 class TestStrategy(backtrader.Strategy):
 
     def log(self, txt, dt=None):

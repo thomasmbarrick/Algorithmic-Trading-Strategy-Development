@@ -1,7 +1,7 @@
 import backtrader
 
 
-#This class implements the test strategy from the Backtrader quickstart guide.
+#This class adapts the test strategy from the Backtrader quickstart guide.
 # https://www.backtrader.com/docu/quickstart/quickstart/#adding-some-logic-to-the-strategy
 class TestStrategyAdapted(backtrader.Strategy):
 
@@ -11,41 +11,41 @@ class TestStrategyAdapted(backtrader.Strategy):
         print('%s, %s' % (dt.isoformat(), txt))
 
     def __init__(self):
-        # Keep a reference to the "close" line in the data[0] dataseries
         self.dataclose = self.datas[0].close
         self.order = None
-        self.bar_executed = len(self)
+        self.bar_executed = 0
         
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
             return
-        if order.status in [order.Completed]:
+        
+        if order.status == order.Completed:
             if order.isbuy():
-                self.log("BUY EXECUTED {}".format(order.executed.price))
-            elif order.issell:
-                self.log("SELL EXECUTED {}".format(order.executed.price))
-            self.bar_executed = len(self)
-        self.order = None
-
+                self.log("BUY EXECUTED, Price: {}".format(order.executed.price))
+            elif order.issell():
+                self.log("SELL EXECUTED, Price: {}".format(order.executed.price))
+            
+            self.bar_executed = len(self)  
+        
+        self.order = None  
+        
+    
     def next(self):
-        # Simply log the closing price of the series from the reference
         self.log('Close, %.2f' % self.dataclose[0])
         
-        #print(len(self))
-        #print(self.order)
-        #print(self.position)
+        #Prevents buying/selling stock if there is an order being made
         if self.order:
             return
+        
+        #Prevents buying more stock if you already have stocks purchased
         if not self.position:
             if self.dataclose[0] < self.dataclose[-1]:
-                # current close less than previous close
-
                 if self.dataclose[-1] < self.dataclose[-2]:
-                    # previous close less than the previous close
-
-                    # BUY, BUY, BUY!!! (with all possible default parameters)
-                    self.log('BUY CREATE, %.2f' % self.dataclose[0])
+                    self.log('BUY CREATED, %.2f' % self.dataclose[0])
                     self.order = self.buy()
-        if len(self) >= (self.bar_executed + 5):
-            self.log("SELL CREATED {}".format(self.dataclose[0]))
-            self.order = self.sell
+
+        #Sells stock five days after the order is completed 
+        elif len(self) >= (self.bar_executed + 5):
+            self.log("SELL CREATED, %.2f" % self.dataclose[0])
+            self.order = self.sell()
+            print("Sell order placed")
