@@ -3,6 +3,8 @@ import datetime
 import sys
 sys.path.append('src/trading_logic')
 from test_strategy import TestStrategy
+from test_strategy_adapted import TestStrategyAdapted
+
 
 cerebro = backtrader.Cerebro()
 
@@ -13,7 +15,7 @@ data = backtrader.feeds.YahooFinanceCSVData(
     reverse=False)
 
 cerebro.adddata(data)
-cerebro.addstrategy(TestStrategy)
+cerebro.addstrategy(TestStrategyAdapted)
 
 print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
 
