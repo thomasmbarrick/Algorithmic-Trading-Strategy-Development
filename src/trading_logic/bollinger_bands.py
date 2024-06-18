@@ -1,6 +1,6 @@
 import backtrader
 
-class MeanReversionStrategy(backtrader.Strategy):
+class BollingerBands(backtrader.Strategy):
     
     def Log(self, txt, dt=None):
         '''Logging Function'''

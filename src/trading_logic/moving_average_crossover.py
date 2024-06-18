@@ -1,6 +1,6 @@
 import backtrader
 
-class MeanReversionStrategy(backtrader.Strategy):
+class MovingAverageCrossover(backtrader.Strategy):
     
     def Log(self, txt, dt=None):
         '''Logging Function'''
