@@ -21,6 +21,7 @@ class BB(bt.Strategy):
             if order.isbuy():
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.value
+                self.stop_trail(self.data.close[0]*0.95)
                 self.log("BUY EXECUTED, Price: {}".format(order.executed.price))
             if order.issell():
                 self.log("SELL EXECUTED, Price: {}".format(order.executed.price))
@@ -33,3 +34,5 @@ class BB(bt.Strategy):
             self.buy()
         elif self.dataclose[0] < self.bollinger.lines.bot[0] and self.position:
             self.sell()
+            
+        
