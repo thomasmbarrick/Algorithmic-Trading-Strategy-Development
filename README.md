@@ -7,3 +7,5 @@ This repository contains implementations of various trading algorithms using the
 3. Bollinger Bands Strategy
 4. Mean Reversion Strategy
 5. MACD (Moving Average Convergence Divergence) Strategy
+
+The code for this was written by me using my personal and univeristy github account.
