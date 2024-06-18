@@ -10,11 +10,16 @@ class RSI(backtrader.Strategy):
     def __init__(self):
         self.dataclose = self.datas[0].close
         self.order = None
-        self.bar_executed = 0
         
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
             return
+        
+        if order.status == order.Completed:
+            if order.isbuy():
+                self.log("BUY EXECUTED, Price: {}".format(order.executed.price))
+            elif order.issell():
+                self.log("SELL EXECUTED, Price: {}".format(order.executed.price))
         
         self.order = None
         

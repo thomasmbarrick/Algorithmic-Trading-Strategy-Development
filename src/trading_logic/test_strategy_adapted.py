@@ -48,4 +48,3 @@ class TestStrategyAdapted(backtrader.Strategy):
         elif len(self) >= (self.bar_executed + 5):
             self.log("SELL CREATED, %.2f" % self.dataclose[0])
             self.order = self.sell()
-            print("Sell order placed")
