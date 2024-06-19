@@ -17,14 +17,16 @@ class BB(bt.Strategy):
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
             return
+
         if order.status in [order.Completed]:
             if order.isbuy():
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.value
-                self.stop_trail(self.data.close[0]*0.95)
                 self.log("BUY EXECUTED, Price: {}".format(order.executed.price))
+                
             if order.issell():
                 self.log("SELL EXECUTED, Price: {}".format(order.executed.price))
+                
         self.order = None
         
     def next(self):
@@ -34,5 +36,4 @@ class BB(bt.Strategy):
             self.buy()
         elif self.dataclose[0] < self.bollinger.lines.bot[0] and self.position:
             self.sell()
-            
-        
+ 
