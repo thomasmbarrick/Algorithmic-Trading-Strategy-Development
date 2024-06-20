@@ -7,6 +7,7 @@ from test_strategy_adapted import TestStrategyAdapted
 from moving_average_crossover import MovingAverageCrossover
 from relative_strength_index import RSI
 from bollinger_bands import BB
+from mean_reversion_strategy import MeanReversionStrategy
 
 cerebro = backtrader.Cerebro()
 
@@ -19,7 +20,7 @@ data = backtrader.feeds.YahooFinanceCSVData(
     reverse=False)
 
 cerebro.adddata(data)
-cerebro.addstrategy(BB)
+cerebro.addstrategy(MeanReversionStrategy)
 cerebro.addsizer(backtrader.sizers.FixedSize, stake=500)
 
 print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
