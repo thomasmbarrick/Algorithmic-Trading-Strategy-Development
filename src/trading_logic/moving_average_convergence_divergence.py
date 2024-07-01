@@ -2,7 +2,7 @@ import backtrader
 
 
 
-class MACD(backtrader):
+class MACD(backtrader.Strategy):
     params = (
         ('fast_ema_period', 12),
         ('slow_ema_period', 26),
@@ -20,7 +20,7 @@ class MACD(backtrader):
         self.bar_executed = 0
         
         # Add MACD indicator
-        self.macd = bt.indicators.MACD(
+        self.macd = backtrader.indicators.MACD(
             self.datas[0],
             period_me1=self.params.fast_ema_period,
             period_me2=self.params.slow_ema_period,
