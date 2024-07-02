@@ -3,8 +3,8 @@ from datetime import datetime
 
 class MeanReversionStrategy(bt.Strategy):
     params = (
-        ('period', 20),          # Lookback period for mean and std deviation
-        ('devfactor', 2),        # Standard deviation factor
+        ('period', 20),          
+        ('devfactor', 2),        
     )
 
     def log(self, txt, dt=None):
@@ -17,7 +17,6 @@ class MeanReversionStrategy(bt.Strategy):
         self.order = None
         self.bar_executed = 0
         
-        # Calculate the simple moving average and the standard deviation
         self.sma = bt.indicators.SimpleMovingAverage(self.dataclose, period=self.params.period)
         self.stdev = bt.indicators.StandardDeviation(self.dataclose, period=self.params.period)
 
@@ -53,16 +52,13 @@ class MeanReversionStrategy(bt.Strategy):
         std_dev = self.stdev[0]
         price = self.dataclose[0]
 
-        # Log the closing price, mean, and standard deviation
         self.log(f'Close: {price:.2f}, Mean: {mean:.2f}, StdDev: {std_dev:.2f}')
 
-        # Buy signal: when price is significantly below the mean (e.g., 2 standard deviations)
         if price < (mean - self.params.devfactor * std_dev):
             if not self.position:  # Only buy if not already in a position
                 self.order = self.buy()
                 self.log(f'BUY CREATE, Price: {price:.2f}')
         
-        # Sell signal: when price is significantly above the mean (e.g., 2 standard deviations)
         elif price > (mean + self.params.devfactor * std_dev):
             if self.position:  # Only sell if currently in a position
                 self.order = self.sell()

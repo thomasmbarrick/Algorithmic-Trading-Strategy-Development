@@ -21,7 +21,7 @@ data = backtrader.feeds.YahooFinanceCSVData(
     reverse=False)
 
 cerebro.adddata(data)
-cerebro.addstrategy(MACD)
+cerebro.addstrategy(MovingAverageCrossover)
 cerebro.addsizer(backtrader.sizers.FixedSize, stake=500)
 
 print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
